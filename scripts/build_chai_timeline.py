@@ -119,6 +119,42 @@ def phrases_from_words(raw: dict | list, source_text: str | None = None) -> list
     return [p for p in phrases if CONTENT_RE.search(p["text"])]
 
 
+def check_clip_coverage(ep: Path, idx: int) -> bool:
+    """MiniMax 词级 JSON 在输入超过约 70 字时静默截断（音频完整、words 只剩前半）。
+    逐段比对 words 拼接文本与口播原文，覆盖率不足即报错——fail fast，别等字幕阶段。"""
+    n = f"{idx:02d}"
+    txt = ep / "audio" / f"{n}.txt"
+    wj = ep / "audio" / f"{n}-words.json"
+    if not txt.exists() or not wj.exists():
+        return True
+    want = "".join(txt.read_text("utf-8").split())
+    data = json.loads(wj.read_text("utf-8"))
+
+    def _find(o):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                if k == "timestamped_words":
+                    return v
+                r = _find(v)
+                if r is not None:
+                    return r
+        elif isinstance(o, list):
+            for it in o:
+                r = _find(it)
+                if r is not None:
+                    return r
+        return None
+
+    words = _find(data) or []
+    got = "".join(str(w.get("word", "")) for w in words).replace(" ", "")
+    strip = lambda s: re.sub(r"[—–\.\s]", "", s)
+    if len(strip(got)) < len(strip(want)) * 0.9:
+        print(f"FAIL: {n}-words.json 疑似截断（词级覆盖 {len(strip(got))}/{len(strip(want))} 字）。"
+              f"口播单句请控制在 65 字以内，或拆成多段后重新合成。")
+        return False
+    return True
+
+
 def main() -> int:
     if len(sys.argv) != 2:
         print(__doc__)
@@ -129,6 +165,9 @@ def main() -> int:
     if not clips:
         print(f"FAIL: {audio} 下没有 NN.mp3")
         return 1
+    for i in range(1, len(clips) + 1):
+        if not check_clip_coverage(ep, i):
+            return 2
 
     voices, groups = [], []
     offset = 0.0
