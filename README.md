@@ -1,6 +1,13 @@
+<p align="center"><img src="docs/hero.png" alt="czbvideo-ai-shorts cover samples" width="100%"></p>
+
 # czbvideo-ai-shorts · AI 单热点日更短视频流水线
 
-> 柴主编（**czbvideo**）的日更视频工业线，已连产 110+ 期。
+> 柴主编（**czbvideo**）的日更视频工业线，已连产 110+ 期。[English](README.en.md)
+
+<p align="center">
+<a href="README.en.md">English</a> · <a href="#安装">安装</a> · <a href="#脚本一览-scripts">脚本</a> · <a href="#设计要点为什么值得抄">设计要点</a> · <a href="#license">MIT</a>
+</p>
+
 
 一个可直接安装的 [ZCode Skill](https://code.z.ai)：从选题到成片，端到端生产 25–45 秒竖屏 AI 知识短视频（抖音 / 小红书 / 视频号规格）。从一条真实量产管线（连产 110+ 期的「柴主编｜只讲一件事」）中提炼，核心方法论 + 五个零依赖自研脚本全部开源。
 
