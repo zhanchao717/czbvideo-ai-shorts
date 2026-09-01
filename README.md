@@ -1,4 +1,6 @@
-# daily-ai-shorts · AI 单热点日更短视频流水线
+# czbvideo-ai-shorts · AI 单热点日更短视频流水线
+
+> 柴主编（**czbvideo**）的日更视频工业线，已连产 110+ 期。
 
 一个可直接安装的 [ZCode Skill](https://code.z.ai)：从选题到成片，端到端生产 25–45 秒竖屏 AI 知识短视频（抖音 / 小红书 / 视频号规格）。从一条真实量产管线（连产 110+ 期的「柴主编｜只讲一件事」）中提炼，核心方法论 + 五个零依赖自研脚本全部开源。
 
@@ -16,7 +18,7 @@
 ## 安装
 
 ```bash
-git clone https://github.com/<you>/daily-ai-shorts.git ~/.agents/skills/daily-ai-shorts
+git clone https://github.com/zhanchao717/czbvideo-ai-shorts.git ~/.agents/skills/daily-ai-shorts
 ```
 
 重启会话即被自动发现；或显式 `/skill daily-ai-shorts 跑今天这期`。
